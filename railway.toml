@@ -1,0 +1,8 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "rasa run --enable-api --cors \"*\" --credentials credentials.yml --endpoints endpoints.yml"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
