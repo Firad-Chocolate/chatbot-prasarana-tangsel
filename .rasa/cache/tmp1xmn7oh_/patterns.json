@@ -1,0 +1,14 @@
+[
+  {
+    "name": "kecamatan",
+    "pattern": "(\\bCiputat\\b|\\bPondok\\ Aren\\b|\\bPamulang\\b|\\bSerpong\\ Utara\\b|\\bSetu\\b|\\bSerpong\\b)"
+  },
+  {
+    "name": "olahraga",
+    "pattern": "(\\bSepak\\ bola\\b|\\bTenis\\b|\\bFutsal\\b|\\bBasket\\b|\\bWall\\ Climbing\\b|\\bBadminton\\b|\\bBola\\ Voli\\b|\\bSoftball\\b|\\bRenang\\b)"
+  },
+  {
+    "name": "nama_prasarana",
+    "pattern": "(\\bLapangan\\ Bola\\ Rempoa\\b|\\bLapangan\\ Bola\\ Parigi\\b|\\bLapangan\\ Bola\\ Villa\\ 2000\\ Pamulang\\b|\\bCommunity\\ Center\\ Pamulang\\b|\\bStadion\\ Mini\\ Ciputat\\b|\\bGedung\\ Serba\\ Guna\\ Villa\\ Mutiara\\b|\\bGOR\\ Ciputat\\b|\\bLapangan\\ Softball\\ Alamsutra\\b|\\bLapangan\\ Tenis\\ Bintaro\\ Jaya\\b|\\bLapangan\\ Tenis\\ Villa\\ Pamulang\\ Mas\\b|\\bLapangan\\ Tenis\\ Setu\\b|\\bKolam\\ Renang\\ Panorama\\b)"
+  }
+]

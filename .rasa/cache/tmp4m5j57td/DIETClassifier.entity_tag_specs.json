@@ -1,0 +1,36 @@
+[
+  {
+    "tag_name": "entity",
+    "ids_to_tags": {
+      "1": "B-kecamatan",
+      "2": "I-kecamatan",
+      "3": "L-kecamatan",
+      "4": "U-kecamatan",
+      "5": "B-nama_prasarana",
+      "6": "I-nama_prasarana",
+      "7": "L-nama_prasarana",
+      "8": "U-nama_prasarana",
+      "9": "B-olahraga",
+      "10": "I-olahraga",
+      "11": "L-olahraga",
+      "12": "U-olahraga",
+      "0": "O"
+    },
+    "tags_to_ids": {
+      "B-kecamatan": 1,
+      "I-kecamatan": 2,
+      "L-kecamatan": 3,
+      "U-kecamatan": 4,
+      "B-nama_prasarana": 5,
+      "I-nama_prasarana": 6,
+      "L-nama_prasarana": 7,
+      "U-nama_prasarana": 8,
+      "B-olahraga": 9,
+      "I-olahraga": 10,
+      "L-olahraga": 11,
+      "U-olahraga": 12,
+      "O": 0
+    },
+    "num_tags": 13
+  }
+]

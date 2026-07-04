@@ -1,0 +1,14 @@
+{
+  "0": "affirm",
+  "1": "bot_challenge",
+  "2": "cari_prasarana_kecamatan",
+  "3": "cari_prasarana_olahraga",
+  "4": "cari_prasarana_olahraga_kecamatan",
+  "5": "deny",
+  "6": "detail_prasarana",
+  "7": "goodbye",
+  "8": "greet",
+  "9": "list_jenis_olahraga",
+  "10": "list_kecamatan",
+  "11": "list_semua_prasarana"
+}
