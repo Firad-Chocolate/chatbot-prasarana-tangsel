@@ -9,4 +9,9 @@ RUN pip install psycopg2-binary python-dotenv
 USER 1001
 EXPOSE 5005
 
-CMD ["run", "--enable-api", "--cors", "*", "--credentials", "credentials.yml", "--endpoints", "endpoints.yml"]
+CMD ["run", \
+     "--enable-api", \
+     "--cors", "*", \
+     "--credentials", "credentials.yml", \
+     "--endpoints", "endpoints.yml", \
+     "--debug"]
