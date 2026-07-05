@@ -3,7 +3,7 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-# Menggunakan nohup dan mengarahkan log SDK agar tidak mengunci terminal utama Rasa Core
-startCommand = "nohup python -m rasa_sdk --actions actions --port 5055 > /dev/null 2>&1 & rasa run --enable-api --cors \"*\" --credentials credentials.yml --endpoints endpoints.yml --port $PORT"
+# Menjalankan Action Server di subshell latar belakang, lalu menjalankan Rasa utama
+startCommand = "(python -m rasa_sdk --actions actions --port 5055 &) && rasa run --enable-api --cors \"*\" --credentials credentials.yml --endpoints endpoints.yml --port $PORT"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
