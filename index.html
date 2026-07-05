@@ -5,9 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tangsel Sports Bot — Informasi Prasarana Olahraga</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Gaya tambahan untuk area Chatbot Berbasis REST */
+        .chat-widget-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+        }
 
-    <!-- Cukup panggil CSS milik rasa-webchat saja -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.css">
+        .chat-widget-header {
+            background: #0056b3;
+            color: #ffffff;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .chat-widget-header img {
+            width: 30px;
+            height: auto;
+        }
+
+        #chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message-row {
+            display: flex;
+            width: 100%;
+        }
+
+        .message-row.user {
+            justify-content: flex-end;
+        }
+
+        .message-row.bot {
+            justify-content: flex-start;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .message-row.user .message-bubble {
+            background: #007bff;
+            color: #ffffff;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message-row.bot .message-bubble {
+            background: #e9ecef;
+            color: #333333;
+            border-bottom-left-radius: 2px;
+        }
+
+        .chat-widget-input-area {
+            display: flex;
+            padding: 15px;
+            background: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            gap: 10px;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #user-input:focus {
+            border-color: #007bff;
+        }
+
+        #send-btn {
+            padding: 12px 24px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        #send-btn:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
 
@@ -39,44 +146,102 @@
         </div>
     </div>
 
-    <!-- Kotak wadah chat utama (karena menggunakan embedded: true) -->
-    <div class="chat-container" id="chat-container"></div>
+    <!-- Wadah Utama Aplikasi Chat Terintegrasi (Embedded) -->
+    <div class="chat-container" id="chat-container">
+        <div class="chat-widget-container">
+            <div class="chat-widget-header">
+                <img src="image/1782666392920.png" alt="DISPORA Logo">
+                <span>Layanan Chat DISPORA — Info Olahraga</span>
+            </div>
+
+            <div id="chat-messages">
+                <div class="message-row bot">
+                    <div class="message-bubble">
+                        Halo! Selamat datang di Chatbot Prasarana Olahraga Tangsel. Ada yang bisa saya bantu hari ini?
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-widget-input-area">
+                <input type="text" id="user-input" placeholder="Ketik pesan Anda di sini..." autocomplete="off">
+                <button id="send-btn" onclick="sendMessage()">Kirim</button>
+            </div>
+        </div>
+    </div>
 
     <div class="footer-section">
         <p class="slogan-text">Cerdas • Modern • Religius</p>
         <p class="footer-note">Basis data dikelola secara berkala oleh Dinas Pemuda dan Olahraga (DISPORA) Kota Tangerang Selatan.</p>
     </div>
 
-    <!-- Pemuatan script utama yang telah diperbaiki -->
-    <script src="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js"></script>
     <script>
-        /* global window, document */
-        window.addEventListener('DOMContentLoaded', function () {
-            if (window.WebChat && window.WebChat.default) {
-                window.WebChat.default(
-                    {
-                        customData: { language: "id" },
-                        socketUrl: "https://chatbot-prasarana-tangsel-production.up.railway.app",
-                        // STRUKTUR TERPENTING: transports harus dibungkus di dalam socketOptions
-                        socketOptions: {
-                            transports: ['websocket']
-                        },
-                        title: "Layanan Chat DISPORA",
-                        subtitle: "Informasi Prasarana Olahraga Tangsel",
-                        initPayload: "/greet",
-                        profileAvatar: "image/1782666392920.png",
-                        inputTextFieldHint: "Ketik pesan Anda di sini...",
-                        showMessageDate: true,
-                        embedded: true, // Membuat obrolan menempel langsung di dalam div chat-container
-                        showFullScreenButton: false
-                    },
-                    document.getElementById("chat-container")
-                );
-            } else {
-                console.error("Gagal memuat komponen utama Rasa WebChat.");
+        const RASA_REST_URL = "https://chatbot-prasarana-tangsel-production.up.railway.app/webhooks/rest/webhook";
+        const messagesContainer = document.getElementById("chat-messages");
+        const inputField = document.getElementById("user-input");
+
+        // Kirim pesan saat menekan tombol Enter
+        inputField.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
             }
         });
 
+        async function sendMessage() {
+            const messageText = inputField.value.trim();
+            if (!messageText) return;
+
+            // 1. Tampilkan pesan user ke layar
+            appendMessage("user", messageText);
+            inputField.value = "";
+
+            try {
+                // 2. Kirim data ke backend via HTTP POST API (Anti Eror 502 WebSocket)
+                const response = await fetch(RASA_REST_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        sender: "user_netlify_web",
+                        message: messageText
+                    })
+                });
+
+                const data = await response.json();
+
+                // 3. Tampilkan balasan dari bot rasa
+                if (data && data.length > 0) {
+                    data.forEach(botResponse => {
+                        if (botResponse.text) {
+                            appendMessage("bot", botResponse.text);
+                        }
+                    });
+                } else {
+                    appendMessage("bot", "Maaf, saat ini saya tidak dapat merumuskan jawaban yang tepat.");
+                }
+            } catch (error) {
+                console.error("REST Error:", error);
+                appendMessage("bot", "Gagal terhubung ke server bot. Silakan pastikan server Anda di Railway sudah aktif.");
+            }
+        }
+
+        function appendMessage(sender, text) {
+            const messageRow = document.createElement("div");
+            messageRow.classList.add("message-row", sender);
+
+            const messageBubble = document.createElement("div");
+            messageBubble.classList.add("message-bubble");
+            messageBubble.innerText = text;
+
+            messageRow.appendChild(messageBubble);
+            messagesContainer.appendChild(messageRow);
+
+            // Auto scroll otomatis ke pesan paling bawah
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Hapus sisa cache saat halaman dimuat ulang
         localStorage.clear();
         sessionStorage.clear();
     </script>
