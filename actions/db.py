@@ -17,11 +17,16 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 DB_CONFIG = {
-    "host": os.environ.get("DB_HOST", "localhost"),
+"host": os.environ.get("DB_HOST", "db.vvtxhftvgpkbsjslyrdo.supabase.co"),
     "port": os.environ.get("DB_PORT", "5432"),
-    "dbname": os.environ.get("DB_NAME", "Prasarana_Olahraga_Tangsel"),
+    "dbname": os.environ.get("DB_NAME", "postgres"), # Supabase defaultnya adalah 'postgres'
     "user": os.environ.get("DB_USER", "postgres"),
-    "password": os.environ.get("DB_PASSWORD", "firad161002"),
+    "password": os.environ.get("DB_PASSWORD", "W9txIcbXay1184Wm"),
+    # "host": os.environ.get("DB_HOST", "localhost"),
+    # "port": os.environ.get("DB_PORT", "5432"),
+    # "dbname": os.environ.get("DB_NAME", "Prasarana_Olahraga_Tangsel"),
+    # "user": os.environ.get("DB_USER", "postgres"),
+    # "password": os.environ.get("DB_PASSWORD", "firad161002"),
 }
 
 
