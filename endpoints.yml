@@ -1,5 +1,6 @@
 action_endpoint:
-  url: "https://chatbot-prasarana-tangsel-production.up.railway.app/webhook"
+  url: "http://127.0.0.1:5055/webhook"
+#  url: "https://chatbot-prasarana-tangsel-production.up.railway.app/webhook"
 
 #Jika ingin menyimpan tracker store ke PostgreSQL juga (opsional),
 #uncomment dan sesuaikan bagian berikut:
