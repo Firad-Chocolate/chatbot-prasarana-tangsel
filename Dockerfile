@@ -1,23 +1,20 @@
-FROM rasa/rasa:3.6.21-full
+FROM docker.io/rasa/rasa:3.6.21-full@sha256:5d6fe923a03dd01f022e3f598f39f25eb39db418c5f49bcd250db0d93cb0003c
 
 WORKDIR /app
+
+# Pindah ke ROOT agar diizinkan melakukan install dan chmod
+USER root
+
 COPY . .
 
-USER root
+# Install dependencies tambahan
 RUN pip install rasa rasa-sdk psycopg2-binary python-dotenv
-#RUN pip install psycopg2-binary python-dotenv
 
-USER 1001
-EXPOSE 5005
-
-# Hapus baris ENTRYPOINT, langsung gunakan CMD teks biasa di bawah ini:
-CMD ["run", "--enable-api", "--cors", "*", "--credentials", "credentials.yml", "--endpoints", "endpoints.yml"]
-
-# ... kode Dockerfile Anda yang sudah ada ...
-
-# Salin script start ke dalam kontainer
-COPY start.sh /app/start.sh
+# Beri izin eksekusi pada script start
 RUN chmod +x /app/start.sh
 
-# Jalankan script tersebut saat kontainer dimulai
+# Kembalikan ke user default Rasa (1001) demi keamanan produksi
+USER 1001
+
+# HAPUS CMD LAMA JIKA ADA, pastikan HANYA baris ini yang ada di paling bawah file:
 CMD ["/app/start.sh"]
