@@ -4,6 +4,11 @@ action_endpoint:
 
 #Jika ingin menyimpan tracker store ke PostgreSQL juga (opsional),
 #uncomment dan sesuaikan bagian berikut:
+tracker_store:
+  type: SQL
+  dialect: "postgresql"
+  url: ${DATABASE_URL}
+  db: "postgres"
 #tracker_store:
 #  type: SQL
 #  dialect: "postgresql"
