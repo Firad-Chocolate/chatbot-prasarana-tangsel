@@ -6,15 +6,7 @@
     <title>Tangsel Sports Bot — Informasi Prasarana Olahraga</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- Widget resmi RasaHQ (pengganti rasa-webchat yang lama) -->
-    <script
-      type="module"
-      src="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.esm.js"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@rasahq/chat-widget-ui/dist/rasa-chatwidget/rasa-chatwidget.css"
-    />
+    <!-- Cukup panggil CSS milik rasa-webchat saja -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.css">
 </head>
 <body>
@@ -47,6 +39,7 @@
         </div>
     </div>
 
+    <!-- Kotak wadah chat utama (karena menggunakan embedded: true) -->
     <div class="chat-container" id="chat-container"></div>
 
     <div class="footer-section">
@@ -54,40 +47,35 @@
         <p class="footer-note">Basis data dikelola secara berkala oleh Dinas Pemuda dan Olahraga (DISPORA) Kota Tangerang Selatan.</p>
     </div>
 
+    <!-- Pemuatan script utama yang telah diperbaiki -->
+    <script src="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js"></script>
     <script>
         /* global window, document */
-        (function () {
-            var e = document.createElement("script");
-            var t = document.head || document.getElementsByTagName("head")[0];
-
-            e.src = "https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js";
-            e.async = true;
-
-            e.onload = function () {
-                if (window.WebChat && window.WebChat.default) {
-                    window.WebChat.default(
-                        {
-                            customData: { language: "id" },
-                            socketUrl: "https://chatbot-prasarana-tangsel-production.up.railway.app",
-                            transports: ['websocket'],
-                            title: "Layanan Chat DISPORA",
-                            subtitle: "Informasi Prasarana Olahraga Tangsel",
-                            initPayload: "/greet",
-                            profileAvatar: "image/1782666392920.png",
-                            inputTextFieldHint: "Ketik pesan Anda di sini...",
-                            showMessageDate: true,
-                            embedded: true,
-                            showFullScreenButton: false
+        window.addEventListener('DOMContentLoaded', function () {
+            if (window.WebChat && window.WebChat.default) {
+                window.WebChat.default(
+                    {
+                        customData: { language: "id" },
+                        socketUrl: "https://chatbot-prasarana-tangsel-production.up.railway.app",
+                        // STRUKTUR TERPENTING: transports harus dibungkus di dalam socketOptions
+                        socketOptions: {
+                            transports: ['websocket']
                         },
-                        document.getElementById("chat-container")
-                    );
-                } else {
-                    console.error("Gagal memuat komponen utama Rasa WebChat.");
-                }
-            };
-
-            t.insertBefore(e, t.firstChild);
-        })();
+                        title: "Layanan Chat DISPORA",
+                        subtitle: "Informasi Prasarana Olahraga Tangsel",
+                        initPayload: "/greet",
+                        profileAvatar: "image/1782666392920.png",
+                        inputTextFieldHint: "Ketik pesan Anda di sini...",
+                        showMessageDate: true,
+                        embedded: true, // Membuat obrolan menempel langsung di dalam div chat-container
+                        showFullScreenButton: false
+                    },
+                    document.getElementById("chat-container")
+                );
+            } else {
+                console.error("Gagal memuat komponen utama Rasa WebChat.");
+            }
+        });
 
         localStorage.clear();
         sessionStorage.clear();
