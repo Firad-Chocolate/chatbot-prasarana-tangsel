@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . .
 
 USER root
-RUN pip install --no-cache-dir --one-by-one -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 #RUN pip install psycopg2-binary python-dotenv
 
 USER 1001
