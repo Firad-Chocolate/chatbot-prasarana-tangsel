@@ -9,5 +9,5 @@ RUN pip install psycopg2-binary python-dotenv
 USER 1001
 EXPOSE 5005
 
-ENTRYPOINT ["rasa"]
-CMD ["run", "--enable-api", "--cors", "*", "--credentials", "credentials.yml", "--endpoints", "endpoints.yml"]
+# Hapus baris ENTRYPOINT, langsung gunakan CMD teks biasa di bawah ini:
+CMD rasa run --enable-api --cors "*" --credentials credentials.yml --endpoints endpoints.yml --port $PORT
